@@ -60,47 +60,86 @@
                 <Content :style="{padding: '24px 0', minHeight: '280px', background: '#fff'}">
                     <Layout>
                         <Sider hide-trigger :style="{background: '#fff'}">
-                            <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
-                                <Submenu name="1">
-                                    <template slot="title">
-                                        <Icon type="ios-navigate"></Icon>
-                                        Item 1
-                                    </template>
-                                    <MenuItem name="1-1">Option 1</MenuItem>
-                                    <MenuItem name="1-2">Option 2</MenuItem>
-                                    <MenuItem name="1-3">Option 3</MenuItem>
-                                </Submenu>
-                                <Submenu name="2">
-                                    <template slot="title">
-                                        <Icon type="ios-keypad"></Icon>
-                                        Item 2
-                                    </template>
-                                    <MenuItem name="2-1">Option 1</MenuItem>
-                                    <MenuItem name="2-2">Option 2</MenuItem>
-                                </Submenu>
-                                <Submenu name="3">
-                                    <template slot="title">
-                                        <Icon type="ios-analytics"></Icon>
-                                        Item 3
-                                    </template>
-                                    <MenuItem name="3-1">Option 1</MenuItem>
-                                    <MenuItem name="3-2">Option 2</MenuItem>
-                                </Submenu>
-                            </Menu>
+                           
+                               
+                                <ggg :msg='RouteData' @on-change="change"></ggg>
+                            
                         </Sider>
                         <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                            Content
+                            <router-view/>
                         </Content>
                     </Layout>
                 </Content>
             </Layout>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
+            <Button @click="foo" type="primary">点击</Button>
         </Layout>
     </div>
 </div>
 </template>
 <script>
+	
     export default {
-        
+    	components:{ 
+    	     ggg:{
+    	     	name:'gs',
+    	     	template:` <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="routeTo">
+    	     	<Submenu v-for="item in msg"  :name="item.name" :key="item.name" v-if="item.name!='aaa'">
+                                    <template slot="title">
+                                        <Icon :type="item.icon"></Icon>
+                                        {{item.title}}
+                                    </template>
+                                    <template v-for="item2 in item.children">
+                                              <gs :msg='item2' v-if="item2.children"></gs>
+                                              <MenuItem :key="item2.name"  :name="item2.name" v-else>
+                                              
+                                               {{item2.title}}
+                                           
+                                              </MenuItem>
+                                    </template>
+                          </Submenu>
+                          </Menu>
+                          `,
+                props:['msg'],
+                data(){
+                	return{
+                		
+                	}
+                },
+                methods:{
+                	routeTo(name){
+//              		console.log(name)
+                		this.$emit("on-change",name)
+                	}
+                }
+    	     }
+    	     
+    	 
+    	},
+        data(){
+        	return{
+        		RouteData:""
+        		
+        	}
+        },
+        methods:{
+        	change(name){
+        		console.log(name)
+        		this.$router.push({
+                    name: name
+                });
+        	},
+        	foo(){
+        		console.log("ooorrr")
+        		this.$router.push({
+        			name:'aaa'
+        		})
+        	}
+        },
+        created(){
+        	this.RouteData=this.$router.options.routes[0].children
+        	console.log(this.RouteData)
+        	
+        }
     }
 </script>
