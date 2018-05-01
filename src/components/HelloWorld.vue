@@ -60,10 +60,10 @@
                 <Content :style="{padding: '24px 0', minHeight: '280px', background: '#fff'}">
                     <Layout>
                         <Sider hide-trigger :style="{background: '#fff'}">
-                           
+                           <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="change">
                                
                                 <ggg :msg='RouteData' @on-change="change"></ggg>
-                            
+                            </Menu>
                         </Sider>
                         <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
                             <router-view/>
@@ -72,7 +72,7 @@
                 </Content>
             </Layout>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
-            <Button @click="foo" type="primary">点击</Button>
+            
         </Layout>
     </div>
 </div>
@@ -83,14 +83,14 @@
     	components:{ 
     	     ggg:{
     	     	name:'gs',
-    	     	template:` <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="routeTo">
+    	     	template:` <span>
     	     	<Submenu v-for="item in msg"  :name="item.name" :key="item.name" v-if="item.name!='aaa'">
                                     <template slot="title">
                                         <Icon :type="item.icon"></Icon>
                                         {{item.title}}
                                     </template>
                                     <template v-for="item2 in item.children">
-                                              <gs :msg='item2' v-if="item2.children"></gs>
+                                              <gs :msg='[item2]' v-if="item2.children"></gs>
                                               <MenuItem :key="item2.name"  :name="item2.name" v-else>
                                               
                                                {{item2.title}}
@@ -98,8 +98,8 @@
                                               </MenuItem>
                                     </template>
                           </Submenu>
-                          </Menu>
-                          `,
+                          
+                         </span> `,
                 props:['msg'],
                 data(){
                 	return{
@@ -107,10 +107,10 @@
                 	}
                 },
                 methods:{
-                	routeTo(name){
-//              		console.log(name)
-                		this.$emit("on-change",name)
-                	}
+//              	routeTo(name){
+////              		console.log(name)
+//              		this.$emit("on-change",name)
+//              	}
                 }
     	     }
     	     
@@ -128,13 +128,9 @@
         		this.$router.push({
                     name: name
                 });
-        	},
-        	foo(){
-        		console.log("ooorrr")
-        		this.$router.push({
-        			name:'aaa'
-        		})
+                
         	}
+        	
         },
         created(){
         	this.RouteData=this.$router.options.routes[0].children
