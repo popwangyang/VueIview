@@ -65,7 +65,7 @@
                                 <ggg :msg='RouteData' @on-change="change"></ggg>
                             </Menu>
                         </Sider>
-                        <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
+                        <Content :style="{padding: '24px', minHeight: '280px', background: 'red'}">
                             <router-view/>
                         </Content>
                     </Layout>
@@ -87,7 +87,7 @@
     	     	<Submenu v-for="item in msg"  :name="item.name" :key="item.name" v-if="item.name!='aaa'">
                                     <template slot="title">
                                         <Icon :type="item.icon"></Icon>
-                                        {{item.title}}
+                                        <span>{{item.title}}</span>
                                     </template>
                                     <template v-for="item2 in item.children">
                                               <gs :msg='[item2]' v-if="item2.children"></gs>

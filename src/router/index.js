@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld   from '@/components/HelloWorld'
+import HelloWorld   from '@/components/HelloWorld1'
 import Item1Option1 from '@/components/Item1/Option1.vue'
 import Item1Option2 from '@/components/Item1/Option2'
 import Item1Option3 from '@/components/Item1/Option3'
